@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Дача",
+    "done": true,
+    "priority": "Обычный"
+  },
+  {
+    "name": "Машина",
+    "done": false,
+    "priority": "Обычный"
+  },
+  {
+    "name": "Город",
+    "done": false,
+    "priority": "обычный"
+  },
+  {
+    "name": "Вафля",
+    "done": false,
+    "priority": "Высокий"
+  },
+  {
+    "name": "Арбуз",
+    "done": false,
+    "priority": "низкий"
+  }
+]
