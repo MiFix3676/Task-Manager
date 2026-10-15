@@ -29,7 +29,10 @@ def load_tasks():
 tasks = load_tasks()
 #1
 def add_task(tasks_list):
-    new_task = input("\nДобавте задачу: ")
+    new_task = input("\nДобавте задачу: ").strip()
+    if not new_task:
+        print("\nВы ничего не ввели")
+        return
     new_task = Task(new_task)
     tasks_list.append(new_task)
     print("\nЗадача добавлена!")
