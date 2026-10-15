@@ -103,8 +103,12 @@ def change_priority(tasks_list):
         print("\nЧел это не номер")
         return
     if 0 <= index < len(tasks_list):
-        new_priority = input("\nВедиде приоритет: ").strip().lower()
+        new_priority = input("\nВедиде приоритет: ").strip()
+        if not new_priority.isalpha():
+            print("Нельзя такое вводить для приоритета!")
+            return
         tasks_list[index].set_priority(new_priority)
+        print("\nПриоритет выставлен")
     else:
         print("Не верный номер!")
 #7
