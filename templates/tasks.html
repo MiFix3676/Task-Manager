@@ -11,9 +11,9 @@
 <ul>
     {% for task in tasks %}
 
-    <li>{{ task.name }} - Приоритет: {{ task.priority }}</li>
+    <li>{{ task.name }} - Приоритет: {{ task.priority }}
             {% if task.done %}
-                <d>(Выполнено)</d>
+                <b>(Выполнено)</b>
 
     {% else %}
     <b>(Не выполнено)</b>
