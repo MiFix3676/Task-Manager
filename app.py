@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import json
 
 class Task:
@@ -34,11 +34,7 @@ def index():
 
 @app.route("/tasks")
 def tasks():
-    loaded_tasks = load_tasks()
-    result = ""
-    for task in loaded_tasks:
-        result += f"{task.name} ({task.priority})\n"
-    return result
+    return render_template("tasks.html", tasks=load_tasks())
 
 @app.route("/about")
 def about():

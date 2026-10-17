@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Мои задачи</title>
+</head>
+<body>
+
+<h1>Список задач</h1>
+
+<ul>
+    {% for task in tasks %}
+
+    <li>{{ task.name }} - Приоритет: {{ task.priority }}</li>
+            {% if task.done %}
+                <d>(Выполнено)</d>
+
+    {% else %}
+    <b>(Не выполнено)</b>
+
+    {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
