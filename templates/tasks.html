@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="/static/style.css">
     <meta charset="UTF-8">
     <title>Мои задачи</title>
 </head>
@@ -11,7 +12,7 @@
 <ul>
     {% for task in tasks %}
 
-    <li>{{ task.name }} - Приоритет: {{ task.priority }}
+    <li class="{% if task.done %}task-done{% else %}task-pending{% endif %}">{{ task.name }} - Приоритет: {{ task.priority }}
             {% if task.done %}
                 <b>(Выполнено)</b>
 
