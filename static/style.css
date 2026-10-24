@@ -38,3 +38,30 @@ li:hover {
 .task-pending b {
     color: #e74c3c;
 }
+button{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    font-size: 15px;
+    border: none;
+    color: white;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+button:hover {
+    background-color: rgb(255 255 255 / 0.08);
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+input{
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    font-size: 15px;
+    border: none;
+    color: white;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+}

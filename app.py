@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 import json
 
 class Task:
@@ -27,6 +27,17 @@ def load_tasks():
         pass
     return loaded_tasks
 
+def save_tasks(tasks_list, verbose=True):
+    data = []
+    for task in tasks_list:
+        data.append({
+            "name": task.name,
+            "done": task.done,
+            "priority": task.priority
+        })
+    with open("tasks.json", "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False , indent=2)
+
 app = Flask(__name__)
 @app.route("/")
 def index():
@@ -39,6 +50,16 @@ def tasks():
 @app.route("/about")
 def about():
     return "Это мой первый сайт"
+
+@app.route("/add", methods=["POST"])
+def add():
+    task = request.form.get("task_name")
+    if task:
+        current_tasks = load_tasks()
+        task = Task(task)
+        current_tasks.append(task)
+        save_tasks(current_tasks)
+    return redirect(url_for("tasks"))
 
 if __name__ == "__main__":
     app.run(debug=True)

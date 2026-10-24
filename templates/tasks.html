@@ -9,6 +9,14 @@
 
 <h1>Список задач</h1>
 
+<button onclick="window.location.reload()">Обновить страницу</button>
+
+<form action="/add" method="POST">
+    <input type="text" name="task_name">
+    <button type="submit">Добавить</button>
+</form>
+
+
 <ul>
     {% for task in tasks %}
 
