@@ -9,9 +9,11 @@
 
 <h1>Список задач</h1>
 
-<button onclick="window.location.reload()">Обновить страницу</button>
+<div class = "refresh-container">
+    <button class="btn-refresh" onclick="window.location.reload()">Обновить страницу</button>
+</div>
 
-<form action="/add" method="POST">
+<form class="add-form" action="/add" method="POST">
     <input type="text" name="task_name">
     <button type="submit">Добавить</button>
 </form>
@@ -20,14 +22,21 @@
 <ul>
     {% for task in tasks %}
 
-    <li class="{% if task.done %}task-done{% else %}task-pending{% endif %}">{{ task.name }} - Приоритет: {{ task.priority }}
+    <li class="{% if task.done %}task-done{% else %}task-pending{% endif %}">
+        <h3>{{ task.name }}</h3>
+        <div>
+            Приоритет: {{ task.priority }}
             {% if task.done %}
                 <b>(Выполнено)</b>
 
     {% else %}
     <b>(Не выполнено)</b>
-
     {% endif %}
+        </div>
+    <form class="delete-form" action="/delete" method="post">
+        <input type="hidden" name="task_index" value="{{ loop.index0 }}">
+        <button class="btn-delete" type="submit">Удалить</button>
+    </form>
     </li>
     {% endfor %}
 </ul>

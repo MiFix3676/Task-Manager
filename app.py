@@ -61,5 +61,16 @@ def add():
         save_tasks(current_tasks)
     return redirect(url_for("tasks"))
 
+@app.route("/delete", methods=["POST"])
+def delete():
+    index_str = request.form.get("task_index")
+    index = int(index_str)
+    tasks = load_tasks()
+    if 0 <= index < len(tasks):
+        del tasks[index]
+        save_tasks(tasks)
+    return redirect(url_for("tasks"))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
