@@ -97,3 +97,13 @@ input{
 .task-pending, .task-done {
     white-space: nowrap;
 }
+.card-action {
+    display: flex;
+}
+
+.toggle-form {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    width: 70%;
+}

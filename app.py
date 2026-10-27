@@ -8,7 +8,7 @@ class Task:
         self.priority = priority
 
     def mark_task(self):
-        self.done = True
+        self.done = not self.done
 
     def set_priority(self, new_priority):
         self.priority = new_priority
@@ -71,6 +71,15 @@ def delete():
         save_tasks(tasks)
     return redirect(url_for("tasks"))
 
+@app.route("/toggle", methods=["POST"])
+def toggle():
+    index_str = request.form.get("task_index")
+    index = int(index_str)
+    tasks = load_tasks()
+    if 0 <= index < len(tasks):
+        tasks[index].mark_task()
+        save_tasks(tasks)
+        return redirect(url_for("tasks"))
 
 if __name__ == "__main__":
     app.run(debug=True)
