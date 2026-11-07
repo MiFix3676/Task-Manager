@@ -107,3 +107,18 @@ input{
     justify-content: flex-end;
     width: 70%;
 }
+
+.btn-toggle {
+    color: white;
+}
+
+.btn-do {
+    background-color: green;
+    color: white;
+}
+
+.btn-undo {
+    background-color: transparent;
+    color: gray;
+    border: 1px solid gray;
+}

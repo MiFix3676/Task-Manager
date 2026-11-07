@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json
 
 class Task:
@@ -53,13 +53,14 @@ def about():
 
 @app.route("/add", methods=["POST"])
 def add():
-    task = request.form.get("task_name")
-    if task:
+    task_name = request.form.get("task_name")
+    if task_name:
         current_tasks = load_tasks()
-        task = Task(task)
-        current_tasks.append(task)
+        new_task = Task(task_name)
+        current_tasks.append(new_task)
+        new_index = len(current_tasks) - 1
         save_tasks(current_tasks)
-    return redirect(url_for("tasks"))
+        return jsonify({"new_index": new_index})
 
 @app.route("/delete", methods=["POST"])
 def delete():
@@ -69,7 +70,9 @@ def delete():
     if 0 <= index < len(tasks):
         del tasks[index]
         save_tasks(tasks)
-    return redirect(url_for("tasks"))
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"status": "error", "massage": "Такой задачи нет"})
 
 @app.route("/toggle", methods=["POST"])
 def toggle():
@@ -79,7 +82,9 @@ def toggle():
     if 0 <= index < len(tasks):
         tasks[index].mark_task()
         save_tasks(tasks)
-        return redirect(url_for("tasks"))
+        return jsonify({"status": "success"})
+    else:
+        return jsonify({"status": "error", "message": "Такой задачи нет"})
 
 if __name__ == "__main__":
     app.run(debug=True)
