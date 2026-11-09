@@ -86,7 +86,7 @@ def toggle():
             save_tasks(tasks)
             return jsonify({"status": "success"})
 
-        return jsonify({"status": "error", "message": "Такой задачи нет"})
+    return jsonify({"status": "error", "message": "Такой задачи нет"})
 
 if __name__ == "__main__":
     app.run(debug=True)
