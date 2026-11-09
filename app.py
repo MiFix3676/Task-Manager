@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 import json
+import uuid
 
 class Task:
-    def __init__(self, name, done=False, priority="Обычный"):
+    def __init__(self, name, done=False, priority="Обычный", id = None):
         self.name = name
         self.done = done
         self.priority = priority
+        self.id = id if id else str(uuid.uuid4())
 
     def mark_task(self):
         self.done = not self.done
@@ -20,7 +22,7 @@ def load_tasks():
         with open("tasks.json", "r", encoding="utf-8") as file:
             data = json.load(file)
         for task in data:
-            task1 = Task(task["name"], task["done"], task["priority"])
+            task1 = Task(task["name"], task["done"], task["priority"], task.get("id"))
             loaded_tasks.append(task1)
 
     except FileNotFoundError:
@@ -33,7 +35,8 @@ def save_tasks(tasks_list, verbose=True):
         data.append({
             "name": task.name,
             "done": task.done,
-            "priority": task.priority
+            "priority": task.priority,
+            "id": task.id
         })
     with open("tasks.json", "w", encoding="utf-8") as file:
             json.dump(data, file, ensure_ascii=False , indent=2)
@@ -58,32 +61,31 @@ def add():
         current_tasks = load_tasks()
         new_task = Task(task_name)
         current_tasks.append(new_task)
-        new_index = len(current_tasks) - 1
         save_tasks(current_tasks)
-        return jsonify({"new_index": new_index})
+        return jsonify({"id": new_task.id})
 
 @app.route("/delete", methods=["POST"])
 def delete():
-    index_str = request.form.get("task_index")
-    index = int(index_str)
+    id_str = request.form.get("task_id")
     tasks = load_tasks()
-    if 0 <= index < len(tasks):
-        del tasks[index]
-        save_tasks(tasks)
-        return jsonify({"status": "success"})
-    else:
-        return jsonify({"status": "error", "massage": "Такой задачи нет"})
+    for task in tasks:
+        if task.id == id_str:
+            tasks.remove(task)
+            save_tasks(tasks)
+            return jsonify({"status": "success"})
+
+    return jsonify({"status": "error", "massage": "Такой задачи нет"})
 
 @app.route("/toggle", methods=["POST"])
 def toggle():
-    index_str = request.form.get("task_index")
-    index = int(index_str)
+    id_str = request.form.get("task_id")
     tasks = load_tasks()
-    if 0 <= index < len(tasks):
-        tasks[index].mark_task()
-        save_tasks(tasks)
-        return jsonify({"status": "success"})
-    else:
+    for task in tasks:
+        if task.id == id_str:
+            task.mark_task()
+            save_tasks(tasks)
+            return jsonify({"status": "success"})
+
         return jsonify({"status": "error", "message": "Такой задачи нет"})
 
 if __name__ == "__main__":

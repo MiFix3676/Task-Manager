@@ -1,4 +1,3 @@
-console.log("УРА! Файл script.js загрузился!");
     let myInput = document.querySelector('input[name = "task_name"]')
     let addForm = document.querySelector(".add-form")
     let myList = document.querySelector(".task-list")
@@ -17,7 +16,7 @@ console.log("УРА! Файл script.js загрузился!");
             .then(function (response) {
                 return response.json()
             })
-            .then(function (new_index) {
+            .then(function (data) {
                 let newLi = document.createElement("li")
         newLi.classList.add("task-pending")
         newLi.innerHTML = `<h3>${text}</h3>
@@ -25,14 +24,14 @@ console.log("УРА! Файл script.js загрузился!");
 <div class="card-action">
 
 <form class="toggle-form" action="/toggle" method="post" >
-        <input type="hidden" name="task_index" value="${new_index.new_index}">
+        <input type="hidden" name="task_id" value="${data.id}">
         <button class="btn-toggle btn-do" type="submit">
             Выполнить
         </button>
         </form>
 
 <form class="delete-form" action="/delete" method="post">
-        <input type="hidden" name="task_index" value="${new_index.new_index}">
+        <input type="hidden" name="task_id" value="${data.id}">
         <button class="btn-delete" type="submit">Удалить</button>
     </form>
 </div>`

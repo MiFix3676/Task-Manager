@@ -33,8 +33,8 @@
     {% endif %}
         </div>
         <div class="card-action">
-            <form class="toggle-form" action="/toggle" method="post" id="toggle-form {{ loop.index0 }}">
-        <input type="hidden" name="task_index" value="{{ loop.index0 }}">
+            <form class="toggle-form" action="/toggle" method="post" id="toggle-form {{ task.id }}">
+        <input type="hidden" name="task_id" value="{{ task.id }}">
         <button class="btn-toggle {% if task.done %}btn-undo{% else %}btn-do{% endif %}" type="submit">
             {% if task.done %}
             Отменить
@@ -44,7 +44,7 @@
         </button>
     </form>
     <form class="delete-form" action="/delete" method="post">
-        <input type="hidden" name="task_index" value="{{ loop.index0 }}">
+        <input type="hidden" name="task_id" value="{{ task.id }}">
         <button class="btn-delete" type="submit">Удалить</button>
     </form>
         </div>
