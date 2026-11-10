@@ -57,9 +57,10 @@ def about():
 @app.route("/add", methods=["POST"])
 def add():
     task_name = request.form.get("task_name")
+    task_priority = request.form.get("task_priority")
     if task_name:
         current_tasks = load_tasks()
-        new_task = Task(task_name)
+        new_task = Task(task_name, priority=task_priority)
         current_tasks.append(new_task)
         save_tasks(current_tasks)
         return jsonify({"id": new_task.id})
@@ -87,6 +88,20 @@ def toggle():
             return jsonify({"status": "success"})
 
     return jsonify({"status": "error", "message": "Такой задачи нет"})
+
+@app.route("/change_priority", methods=["POST"])
+def change_priority():
+    id_str = request.form.get("task_id")
+    new_priority = request.form.get("priority")
+    tasks = load_tasks()
+    for task in tasks:
+        if task.id == id_str:
+            task.priority = new_priority
+            save_tasks(tasks)
+            return jsonify({"status": "success"})
+
+    return jsonify({"status": "error", "message": "Такой задачи нет"})
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -20,7 +20,13 @@
                 let newLi = document.createElement("li")
         newLi.classList.add("task-pending")
         newLi.innerHTML = `<h3>${text}</h3>
-<div>Приоритет: Обычный <b>(Не выполнено)</b></div>
+<div>Приоритет:
+<select class="card-priority">
+ <option value="Высокий">Высокий</option>
+ <option value="Обычный" selected>Обычный</option>
+ <option value="Низкий">Низкий</option>
+ </select>
+ <b>(Не выполнено)</b></div>
 <div class="card-action">
 
 <form class="toggle-form" action="/toggle" method="post" >
@@ -83,6 +89,31 @@
                     } else if (text.innerText === '(Не выполнено)') {
                         text.innerText = '(Выполнено)'
                     }
+                })
+        }
+    })
+    myList.addEventListener("change", function (event) {
+        if (event.target.classList.contains("card-priority")) {
+            const val = event.target.value
+            const card = event.target.closest('li')
+            const id = card.querySelector('input[name=task_id]').value
+            const data = new FormData()
+            data.append("task_id", id)
+            data.append("priority", val)
+
+            fetch("/change_priority", {
+                method: 'post',
+                body: data
+            })
+
+                .then(function (response) {
+                    console.log("приоритет сохранился")
+                })
+
+                .catch(function (error) {
+                    console.error("Ошибка при сохранения приоритета", error)
+                    alert("Ошибка сети! Приоритет не сохранен.")
+                    event.target.value="Обычный"
                 })
         }
     })

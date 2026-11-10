@@ -24,7 +24,12 @@
     <li id="task-card {{ loop.index0 }}" class="{% if task.done %}task-done{% else %}task-pending{% endif %}">
         <h3>{{ task.name }}</h3>
         <div>
-            Приоритет: {{ task.priority }}
+            Приоритет:
+            <select class="card-priority">
+                <option value="Высокий" {% if task.priority == 'Высокий' %}selected{% endif %}>Высокий</option>
+                <option value="Обычный" {% if task.priority == 'Обычный' %}selected{% endif %}>Обычный</option>
+                <option value="Низкий" {% if task.priority == 'Низкий' %}selected{% endif %}>Низкий</option>
+            </select>
             {% if task.done %}
                 <b>(Выполнено)</b>
 
