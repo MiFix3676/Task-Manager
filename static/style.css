@@ -23,10 +23,11 @@ li{
     margin-bottom: 10px;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.1);
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
     font-size: 18px;
 }
-li:hover {
+li:hover,
+li:focus-within {
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0,0,0,0.5);
     cursor: pointer;
@@ -121,4 +122,20 @@ input{
     background-color: transparent;
     color: gray;
     border: 1px solid gray;
+}
+
+.card-priority {
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 5px 8px;
+    font-size: 15px;
+    text-align: center;
+    color-scheme: dark;
+}
+
+.card-priority option {
+    background-color: #2b2d31;
+
 }
