@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-import json
+import sqlite3
 import uuid
 
 class Task:
@@ -15,31 +15,46 @@ class Task:
     def set_priority(self, new_priority):
         self.priority = new_priority
 
+def init_db():
+    conn = sqlite3.connect("tasks.db")
+    cursor = conn.cursor()
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS tasks (
+    id TEXT PRIMARY KEY,
+    name TEXT,
+    done INTEGER,
+    priority TEXT
+    )''')
+
+    conn.commit()
+    conn.close()
+
 def load_tasks():
     loaded_tasks = []
 
-    try:
-        with open("tasks.json", "r", encoding="utf-8") as file:
-            data = json.load(file)
-        for task in data:
-            task1 = Task(task["name"], task["done"], task["priority"], task.get("id"))
-            loaded_tasks.append(task1)
+    conn = sqlite3.connect("tasks.db")
+    cursor = conn.cursor()
 
-    except FileNotFoundError:
-        pass
+    cursor.execute("SELECT * FROM tasks")
+    rows = cursor.fetchall()
+
+    conn.close()
+
+    for row in rows:
+        task1 = Task(row[1], row[2], row[3], row[0])
+        loaded_tasks.append(task1)
+
     return loaded_tasks
 
-def save_tasks(tasks_list, verbose=True):
-    data = []
+def save_tasks(tasks_list):
+    conn = sqlite3.connect("tasks.db")
+    cursor = conn.cursor()
+    cursor.execute("delete from tasks")
     for task in tasks_list:
-        data.append({
-            "name": task.name,
-            "done": task.done,
-            "priority": task.priority,
-            "id": task.id
-        })
-    with open("tasks.json", "w", encoding="utf-8") as file:
-            json.dump(data, file, ensure_ascii=False , indent=2)
+        cursor.execute('''insert into tasks (name, done, priority, id) values (?, ?, ?, ?)''',
+                       (task.name, task.done, task.priority, task.id))
+    conn.commit()
+    conn.close()
 
 app = Flask(__name__)
 @app.route("/")
@@ -104,4 +119,5 @@ def change_priority():
 
 
 if __name__ == "__main__":
+    init_db()
     app.run(debug=True)
